@@ -117,7 +117,7 @@ public class PodsLicenseReader {
         let ps: AnyObject? = root["PreferenceSpecifiers"]
         if let ps = ps where ps is [AnyObject] {
             let specifiers = ps as! [AnyObject]
-            licenses = specifiers[1..<specifiers.count].map({ (s: AnyObject) -> License in
+            licenses = specifiers[1..<specifiers.count-1].map({ (s: AnyObject) -> License in
                 if let title = s["Title"] as! String?, text = s["FooterText"] as! String? {
                         return License(name: title, text: text)
                 } else {
