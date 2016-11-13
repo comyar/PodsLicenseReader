@@ -25,13 +25,13 @@ github "comyarzaheri/PodsLicenseReader" "master"
 
 ### Using a PodsLicenseReader
 
-Add a reference to `Pods/Target Supporting Files/Pods/Pods-acknowledgements.plist` to your project and make sure the file is listed in `Copy Bundle Resources` under `Build Phases` in your project settings.
+Add a reference to `Pods/Target Supporting Files/Pods/Pods-<target>-acknowledgements.plist` to your project and make sure the file is listed in `Copy Bundle Resources` under `Build Phases` in your project settings.
 
 
 ```swift
 import PodsLicenseReader
 
-for license in PodsLicenseReader().getLicenses() {
+for license in PodsLicenseReader(path: <path-to-acknowledgements-plist>).getLicenses() {
 	// Dreams come true here
 	print(license.name)
 }
