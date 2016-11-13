@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name          = "PodsLicenseReader"
-  s.version       = "0.0.3"
+  s.version       = "0.0.4"
   s.summary       = "Easily read licenses for your Cocoa Pods."
   s.homepage      = "https://github.com/comyarzaheri/PodsLicenseReader"
   s.license       = { :type => "MIT", :file => "LICENSE" }

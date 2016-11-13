@@ -48,19 +48,19 @@ public class License {
     */
     public let text: String
     
-    private let empty: Bool
+    fileprivate let empty: Bool
     
     // MARK: Creating a License
     
-    private convenience init() {
+    fileprivate convenience init() {
         self.init(name: nil, text: nil, empty: true)
     }
     
-    private convenience init(name: String, text: String) {
+    fileprivate convenience init(name: String, text: String) {
         self.init(name: name, text: text, empty: false)
     }
     
-    private init(name: String?, text: String?, empty: Bool) {
+    fileprivate init(name: String?, text: String?, empty: Bool) {
         self.name = empty ? "" : name!
         self.text = empty ? "" : text!
         self.empty = empty
@@ -75,18 +75,10 @@ A PodsLicenseReader allows for the reading of Cocoa Pods licenses.
 */
 public class PodsLicenseReader {
     
-    private let root: NSDictionary
-    private var licenses: [License]?
+    fileprivate let root: [String: AnyObject]
+    fileprivate var licenses: [License]?
     
     // MARK: Creating a Pods License Reader
-    
-    /**
-    Initializes a new PodsLicenseReader using the default filename 
-    'Pods-acknowledgements.plist'.
-    */
-    public convenience init() {
-        self.init(path: NSBundle.mainBundle().pathForResource("Pods-acknowledgements", ofType: "plist"))
-    }
 
     /**
     Initializes a new PodsLicenseReader.
@@ -94,10 +86,10 @@ public class PodsLicenseReader {
     - parameter path: Path to the plist file to read from.
     */
     public init(path: String?) {
-        if let _ = path, root = NSDictionary(contentsOfFile: path!) {
-            self.root = root
+        if let _ = path, let root = NSDictionary(contentsOfFile: path!) {
+          self.root = root as! [String:AnyObject]
         } else {
-            self.root = NSDictionary()
+          self.root = [:]
             print("Failed to read licenses for path: \(path)")
         }
     }
@@ -115,10 +107,10 @@ public class PodsLicenseReader {
         }
         
         let ps: AnyObject? = root["PreferenceSpecifiers"]
-        if let ps = ps where ps is [AnyObject] {
+        if let ps = ps, ps is [AnyObject] {
             let specifiers = ps as! [AnyObject]
             licenses = specifiers[1..<specifiers.count-1].map({ (s: AnyObject) -> License in
-                if let title = s["Title"] as! String?, text = s["FooterText"] as! String? {
+                if let title = s["Title"] as! String?, let text = s["FooterText"] as! String? {
                         return License(name: title, text: text)
                 } else {
                     return License()
